@@ -39,7 +39,8 @@ function Comments() {
         if (this.records[index].liked == false) {
             this.records[index].liked = true;
             this.records[index].point++;
-        }
+        } 
+
 
     };
 
@@ -49,8 +50,7 @@ function Comments() {
         if (this.records[index].liked == true) {
             this.records[index].liked = false;
             this.records[index].point--;
-        }
-
+        } 
 
     };
 
@@ -59,6 +59,31 @@ function Comments() {
         if (index !== -1) {
             this.records.splice(index, 1)
         }
+    };
+    this.add = function (record) {
+        const index = this.records.indexOf(record);
+        if (index !== -1) {
+            this.records.push(record)
+        }
+    };
+    this.addToList = function () {
+        var text = window.prompt("Enter your text: ");
+        var username = window.prompt("Enter your username: ");
+        var imageurl = window.prompt("Enter your imageurl: ");
+        var date = window.prompt("Enter your date: ");
+        var point = window.prompt("Enter your point: ");
+
+        let tmp={
+            id: (this.records.length+1)+"",
+            text: text,
+            username: username,
+            imageurl: imageurl,
+            date: date,
+            point: point,
+            liked: false
+
+        }
+        this.records.push(tmp);
     };
 
 }
@@ -127,7 +152,19 @@ function Painter(container) {
             .appendTo(root)
             .build();
 
-
+        const adding = builder
+            .create('button')
+            .setStyle('height', '40px')
+            .setStyle('position', 'absolute')
+            .setStyle('top', '0px')
+            .setStyle('background-color', 'red')
+            .appendTo(root)
+            .text("add to list") 
+            .onclick(() => {
+                comments.addToList();
+                load();
+            })
+            .build();
         comments.records.forEach(record => {
 
             const box = builder
@@ -158,6 +195,7 @@ function Painter(container) {
                 .create('div')
                 .setStyle('width', '95%')
                 .setStyle('margin', '20px 10px')
+                .setStyle('padding-bottom', '40px')
                 .setStyle('position', 'relative')
                 .text(record.text)
                 .appendTo(box)
@@ -284,9 +322,9 @@ function Painter(container) {
                 .appendTo(box_4);
 
 
-
-
         })
+
+
 
     }
     this.render = function () {
